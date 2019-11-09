@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.incomeos.dao.InfoDao">
+    <select id="selectAll" resultType="com.example.incomeos.bean.InfoDto">
+		select * from t_info
+        WHERE 1=1
+        <if test="name != null and name.trim()!=''">
+            and name = #{name}
+        </if>
+        order by create_time DESC
+	</select>
+
+    <insert id="insert" parameterType="com.example.incomeos.bean.InfoDto">
+          INSERT INTO t_info (name,money,detail,create_time) VALUES (#{name},#{money},#{detail},now())
+	</insert>
+
+
+</mapper>
