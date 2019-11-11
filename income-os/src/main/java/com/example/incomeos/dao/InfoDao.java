@@ -22,4 +22,6 @@ public interface InfoDao {
 
     int deleteInfo(Long id);
 
+    int updateInfo(InfoDto infoDto);
+
 }

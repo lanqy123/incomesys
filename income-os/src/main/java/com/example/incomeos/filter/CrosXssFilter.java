@@ -18,7 +18,15 @@ import java.util.Arrays;
 public class CrosXssFilter implements Filter{
     // 多个跨域域名设置
     public static final String[] ALLOW_DOMAIN = {"http://localhost:8081",
-            "http://localhost:8082"
+            "http://localhost:8082",
+            "http://106.52.17.22",
+            "http://106.52.17.22:80",
+            "http://106.52.17.22:8080",
+            "http://106.52.17.22:8082",
+            "http://121.199.51.233",
+            "http://121.199.51.233:80",
+            "http://121.199.51.233:8080",
+            "http://121.199.51.233:8082",
             };
 
     @Override

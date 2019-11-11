@@ -71,4 +71,15 @@ public class InfoController {
         return new Result().ok().put("msg", "success");
     }
 
+    /**
+     * 修改信息
+     * @param infoDto
+     * @return
+     */
+    @RequestMapping("/updateInfo.do_")
+    public Result updateInfo(InfoDto infoDto){
+        infoService.updateInfo(infoDto);
+        return new Result().ok().put("msg", "success");
+    }
+
 }

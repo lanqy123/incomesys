@@ -35,14 +35,15 @@
       </div>
 
       <!--查询结果表格-->
-      <el-table ref="multipleTable" :data="tableData"   @selection-change="handleSelectionChange" :summary-method="getSummaries" show-summary>
-        <el-table-column prop="name" label="姓名"  width="200px"></el-table-column>
-        <el-table-column prop="money" label="金额"  width="200px"></el-table-column>
+      <el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange"
+                :summary-method="getSummaries" show-summary>
+        <el-table-column prop="name" label="姓名" width="200px"></el-table-column>
+        <el-table-column prop="money" label="金额" width="200px"></el-table-column>
         <el-table-column prop="detail" label="备注"></el-table-column>
-        <el-table-column prop="desc" label="操作"  width="200px">
+        <el-table-column prop="desc" label="操作" width="200px">
           <template slot-scope="scope">
-            <el-button type="primary"  @click="" width="auto">编辑</el-button>
-            <el-button type="danger"  @click="deleteInfo(scope.row.id)" width="auto">删除</el-button>
+            <el-button type="primary" @click="editInfo(scope.row)" width="auto">编辑</el-button>
+            <el-button type="danger" @click="deleteInfo(scope.row.id)" width="auto">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,12 +64,23 @@
     <el-dialog
       title="编辑信息"
       :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <span>这是一段信息</span>
+      width="30%">
+      <span>
+        <el-form ref="form" :model="edit" label-width="50px">
+        <el-form-item label="姓名">
+          <el-input v-model="edit.name"></el-input>
+        </el-form-item>
+        <el-form-item label="金额">
+          <el-input v-model="edit.money"></el-input>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input type="textarea" v-model="edit.detail"></el-input>
+        </el-form-item>
+      </el-form>
+      </span>
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    <el-button type="primary" @click="confirmEdit">确 定</el-button>
   </span>
     </el-dialog>
 
@@ -85,13 +97,19 @@
           money: '',
           detail: ''
         },
-        name:'' ,
-        list:[],
-        tableData:[],
-        total:0,
-        currentPage:1,
-        pageSize:10,
-        dialogVisible:false
+        edit: {
+          id: '',
+          name: '',
+          money: '',
+          detail: ''
+        },
+        name: '',
+        list: [],
+        tableData: [],
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+        dialogVisible: false
       }
     },
     created() {
@@ -101,9 +119,9 @@
       onSubmit() {
         var self = this;
         var param = {
-          name:self.form.name,
-          detail:self.form.detail,
-          money:self.form.money,
+          name: self.form.name,
+          detail: self.form.detail,
+          money: self.form.money,
         };
         self.$http.get('info/insert.do_', {
           params: param
@@ -116,11 +134,36 @@
         });
       },
       reset() {
-        this.form.name='';
-        this.form.detail='';
-        this.form.money='';
+        this.form.name = '';
+        this.form.detail = '';
+        this.form.money = '';
       },
-      deleteInfo(val){
+      editInfo(val) {
+        this.edit.id = val.id;
+        this.edit.name = val.name;
+        this.edit.detail = val.detail;
+        this.edit.money = val.money;
+        this.dialogVisible = true;
+      },
+      confirmEdit() {
+        var self = this;
+        var param = {
+          id: self.edit.id,
+          name: self.edit.name,
+          detail: self.edit.detail,
+          money: self.edit.money,
+        };
+        self.$http.get('info/updateInfo.do_', {
+          params: param
+        }).then((result) => {
+          self.$message.success("修改成功");
+          self.fetchData();
+          self.dialogVisible = false;
+        }).catch(function (error) {
+          self.$message.error("获取数据错误");
+        });
+      },
+      deleteInfo(val) {
         var self = this;
         self.$confirm("是否确认删除此执照附件?", '温馨提示', {
           confirmButtonText: '确定',
@@ -128,7 +171,7 @@
           type: 'warning',
         }).then(() => {
           var param = {
-            id:val,
+            id: val,
           };
           self.$http.get('info/deleteInfo.do_', {
             params: param
@@ -140,12 +183,12 @@
           });
         })
       },
-      fetchData(){
+      fetchData() {
         var self = this;
         var param = {
           page: self.currentPage,
           limit: self.pageSize,
-          name:self.name,
+          name: self.name,
         };
         self.$http.get('info/querylist.do_', {
           params: param
@@ -158,18 +201,18 @@
         });
         self.reset();
       },
-      getSummaries(param){
-        const { columns, data } = param;
+      getSummaries(param) {
+        const {columns, data} = param;
         const sums = [];
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '总计';
             return;
           }
-          if(index === 1) {
+          if (index === 1) {
             let values = 0;
-            for (let i = 0; i < this.list.length ; i++) {
-              values  = values + Number(this.list[i].money);
+            for (let i = 0; i < this.list.length; i++) {
+              values = values + Number(this.list[i].money);
             }
             sums[index] = values;
             sums[index] += ' 元';
@@ -191,17 +234,15 @@
         this.selection = val;
       },
     },
-    watch: {
-
-    }
+    watch: {}
   }
 </script>
 
 <style>
-  .h{
+  .h {
     width: 95%;
     float: left;
-    border:1px solid #409EFF;
+    border: 1px solid #409EFF;
     margin-top: -5px;
     margin-bottom: 5px;
     margin-left: 50px;

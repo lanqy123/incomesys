@@ -22,4 +22,6 @@ public interface InfoService {
     int insert(InfoDto infoDto);
 
     int deleteInfo(Long id);
+
+    int updateInfo(InfoDto infoDto);
 }

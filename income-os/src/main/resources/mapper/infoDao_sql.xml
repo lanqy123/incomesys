@@ -21,5 +21,14 @@
          WHERE id =#{id}
     </delete>
 
+    <update id="updateInfo" parameterType="com.example.incomeos.bean.InfoDto">
+        UPDATE t_info
+        SET name = #{name},
+            money = #{money},
+            detail = #{detail},
+            create_time = NOW()
+        WHERE id = #{id}
+    </update>
+
 
 </mapper>
