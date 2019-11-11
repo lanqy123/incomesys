@@ -20,4 +20,6 @@ public interface InfoDao {
 
     int insert(InfoDto infoDto);
 
+    int deleteInfo(Long id);
+
 }

@@ -20,4 +20,6 @@ public interface InfoService {
      List<InfoDto> selectAll();
 
     int insert(InfoDto infoDto);
+
+    int deleteInfo(Long id);
 }

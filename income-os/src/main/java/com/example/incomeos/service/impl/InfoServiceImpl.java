@@ -45,4 +45,9 @@ public class InfoServiceImpl implements InfoService {
     public int insert(InfoDto infoDto) {
         return infoDao.insert(infoDto);
     }
+
+    @Override
+    public int deleteInfo(Long id) {
+        return infoDao.deleteInfo(id);
+    }
 }

@@ -16,5 +16,10 @@
           INSERT INTO t_info (name,money,detail,create_time) VALUES (#{name},#{money},#{detail},now())
 	</insert>
 
+    <delete id="deleteInfo">
+         DELETE from t_info
+         WHERE id =#{id}
+    </delete>
+
 
 </mapper>

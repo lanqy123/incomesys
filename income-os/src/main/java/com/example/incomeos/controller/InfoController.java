@@ -7,6 +7,7 @@ import com.example.incomeos.common.ResultPage;
 import com.example.incomeos.service.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +57,17 @@ public class InfoController {
     @RequestMapping("/insert.do_")
     public Result insert(InfoDto infoDto){
         infoService.insert(infoDto);
+        return new Result().ok().put("msg", "success");
+    }
+
+    /**
+     * 删除信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteInfo.do_")
+    public Result deleteInfo(@RequestParam("id") Long id){
+        infoService.deleteInfo(id);
         return new Result().ok().put("msg", "success");
     }
 
