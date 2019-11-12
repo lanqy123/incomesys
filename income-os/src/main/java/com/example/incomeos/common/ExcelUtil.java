@@ -4,8 +4,6 @@ import com.example.incomeos.bean.InfoDto;
 import org.apache.poi.hssf.usermodel.*;
 
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -46,6 +44,7 @@ public class ExcelUtil {
 
         String[] headers = {"姓名", "金额","备注","创建时间"};
 
+        Integer much = 0;
         //写入List<List<String>>中的数据
         int rowIndex = 0;
         HSSFRow row = sheet.createRow(rowIndex++);
@@ -71,6 +70,7 @@ public class ExcelUtil {
 
             String name = (String) data.get("name");
             String money = data.get("money").toString();
+            much =much + Integer.valueOf(money).intValue();
             String detail = (String) data.get("detail");
             Date createTime = (Date) data.get("createTime");
             //创建一个内容对象
@@ -102,6 +102,22 @@ public class ExcelUtil {
             cell.setCellValue(text);
 
             }
+
+        row = sheet.createRow(rowIndex++);
+        int i =0;
+        //创建一个单元格
+        HSSFCell cell = row.createCell(i++);
+        //创建一个内容对象
+        HSSFRichTextString text = new HSSFRichTextString("总计");
+        //将内容对象的文字内容写入到单元格中
+        cell.setCellValue(text);
+        //创建一个单元格
+        cell = row.createCell(i++);
+        //创建一个内容对象
+        text = new HSSFRichTextString(String.valueOf(much));
+        //将内容对象的文字内容写入到单元格中
+        cell.setCellValue(text);
+
 
         //准备将Excel的输出流通过response输出到页面下载
         //八进制输出流

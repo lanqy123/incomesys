@@ -99,7 +99,7 @@ public class InfoController {
     public void excelExport(HttpServletResponse response) throws IOException, IllegalAccessException {
         List<InfoDto> list = infoService.selectAll();
         String sheetName = "收款名单";
-        String fileName = "收款名单.xls";
+        String fileName = "Excel.xls";
         List<Map<String, Object>> excelData = (List<Map<String, Object>>) objectToMap(list);
         exportExcel(response,excelData,sheetName, fileName, 15);
     }
