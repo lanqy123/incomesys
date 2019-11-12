@@ -1,5 +1,9 @@
 package com.example.incomeos.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,11 +13,21 @@ import java.util.Date;
  * @version 1.0
  * @date: 2019-11-08 16:01:47
  **/
-public class InfoDto {
+public class InfoDto implements Serializable {
+
+
+    private static final long serialVersionUID = -169965979617115731L;
+
     private Integer id;
+
     private String name;
+
     private String money;
+
     private String detail;
+
+    @JsonFormat(pattern="yyyy-MM-ddHH:mm:ss")
+    private Date createTime;
 
     public String getDetail() {
         return detail;
@@ -23,7 +37,6 @@ public class InfoDto {
         this.detail = detail;
     }
 
-    private java.util.Date createTime;
 
     public Integer getId() {
         return id;

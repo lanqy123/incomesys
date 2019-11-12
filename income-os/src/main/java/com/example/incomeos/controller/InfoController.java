@@ -5,15 +5,21 @@ import com.example.incomeos.common.QueryParam;
 import com.example.incomeos.common.Result;
 import com.example.incomeos.common.ResultPage;
 import com.example.incomeos.service.InfoService;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.incomeos.common.ExcelUtil.exportExcel;
+import static com.example.incomeos.common.ExcelUtil.objectToMap;
 
 /**
  * description:
@@ -80,6 +86,22 @@ public class InfoController {
     public Result updateInfo(InfoDto infoDto){
         infoService.updateInfo(infoDto);
         return new Result().ok().put("msg", "success");
+    }
+
+    /**
+     * 导出Excel
+     * @param response
+     * @return
+     * @throws IOException
+     * @throws IllegalAccessException
+     */
+    @RequestMapping("/excelExport.do_")
+    public void excelExport(HttpServletResponse response) throws IOException, IllegalAccessException {
+        List<InfoDto> list = infoService.selectAll();
+        String sheetName = "名单";
+        String fileName = "ExcelTest.xls";
+        List<Map<String, Object>> excelData = (List<Map<String, Object>>) objectToMap(list);
+        exportExcel(response,excelData,sheetName, fileName, 15);
     }
 
 }

@@ -29,7 +29,7 @@
             <el-input v-model="name" placeholder="请输入姓名" style="width: 300px;margin-right: 20px"></el-input>
             <el-button type="primary" @click="fetchData">搜索</el-button>
             <el-button type="warning" @click="name=''">重置</el-button>
-            <el-button type="success" @click="">导出Excel</el-button>
+            <el-button type="success" @click="excelExport">导出Excel</el-button>
           </el-col>
         </el-row>
       </div>
@@ -37,9 +37,10 @@
       <!--查询结果表格-->
       <el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange"
                 :summary-method="getSummaries" show-summary>
-        <el-table-column prop="name" label="姓名" width="200px"></el-table-column>
-        <el-table-column prop="money" label="金额" width="200px"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="150px"></el-table-column>
+        <el-table-column prop="money" label="金额" width="150px"></el-table-column>
         <el-table-column prop="detail" label="备注"></el-table-column>
+        <el-table-column prop="createTime" label="时间" width="150px"></el-table-column>
         <el-table-column prop="desc" label="操作" width="200px">
           <template slot-scope="scope">
             <el-button type="primary" @click="editInfo(scope.row)" width="auto">编辑</el-button>
@@ -88,7 +89,6 @@
 </template>
 
 <script>
-
   export default {
     data() {
       return {
@@ -196,10 +196,10 @@
           self.tableData = result.page.list;
           self.total = result.page.totalCount;
           self.list = result.list;
+          self.reset();
         }).catch(function (error) {
           self.$message.error("获取数据错误");
         });
-        self.reset();
       },
       getSummaries(param) {
         const {columns, data} = param;
@@ -220,6 +220,9 @@
         });
 
         return sums;
+      },
+      excelExport(){
+       window.open("http://localhost:8081/income/info/excelExport.do_")
       },
       handleSizeChange(val) {
         this.pageSize = val;
