@@ -29,7 +29,7 @@ public class ExcelUtil {
      * @param columnWidth Excel表格的宽度，建议为15
      * @throws IOException 抛IO异常
      */
-    public static void exportExcel(HttpServletRequest request, HttpServletResponse response,
+    public static void exportExcel(HttpServletResponse response,
                                    List<Map<String, Object>> excelData,
                                    String sheetName,
                                    String fileName,

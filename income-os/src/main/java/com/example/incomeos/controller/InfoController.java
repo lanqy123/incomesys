@@ -98,8 +98,8 @@ public class InfoController {
     @RequestMapping("/excelExport.do_")
     public void excelExport(HttpServletResponse response) throws IOException, IllegalAccessException {
         List<InfoDto> list = infoService.selectAll();
-        String sheetName = "名单";
-        String fileName = "ExcelTest.xls";
+        String sheetName = "收款名单";
+        String fileName = "收款名单.xls";
         List<Map<String, Object>> excelData = (List<Map<String, Object>>) objectToMap(list);
         exportExcel(response,excelData,sheetName, fileName, 15);
     }
