@@ -95,7 +95,7 @@ public class ExcelUtil {
 
             cell = row.createCell(i++);
 
-            SimpleDateFormat a=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat a=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             //创建一个内容对象
             text = new HSSFRichTextString(a.format(createTime));
             //将内容对象的文字内容写入到单元格中
