@@ -26,7 +26,7 @@ public class InfoDto implements Serializable {
 
     private String detail;
 
-    @JsonFormat(pattern="yyyy-MM-ddHH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     public String getDetail() {
