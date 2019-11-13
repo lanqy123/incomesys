@@ -5,6 +5,7 @@
 <mapper namespace="com.example.incomeos.dao.InfoDao">
     <select id="selectAll" resultType="com.example.incomeos.bean.InfoDto">
 		select
+		id,
 		name,
 		money,
 		detail,
